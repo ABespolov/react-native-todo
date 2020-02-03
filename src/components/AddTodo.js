@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput, Button, Alert} from 'react-native';
+import {StyleSheet, Text, View, TextInput, Button, Alert, Keyboard} from 'react-native';
+import {AntDesign} from "@expo/vector-icons";
 import {THEME} from "../theme";
 
 export const AddTodo = ({addTodo}) => {
   const [text, setText] = useState('');
   const handleClick = () => {
-    if(text.trim()) {
+    if (text.trim()) {
       addTodo(text);
       setText('');
+      Keyboard.dismiss();
     } else {
       Alert.alert('Название задачи не может быть пустым');
     }
@@ -24,7 +26,10 @@ export const AddTodo = ({addTodo}) => {
         //keyboardType="number-pad"
       />
       <View style={styles.button}>
-        <Button title="Добавить" onPress={handleClick}/>
+        <AntDesign.Button onPress={handleClick} name='pluscircleo'>
+          Добавить
+        </AntDesign.Button>
+        {/*<Button title="Добавить" onPress={handleClick}/>*/}
       </View>
     </View>
   );
@@ -38,14 +43,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
-    flex: 2,
+    flexBasis: '60%',
     borderBottomWidth: 2,
     borderStyle: 'solid',
     borderBottomColor: THEME.MAIN_COLOR,
     padding: 10,
   },
   button: {
-    flex: 1,
-    marginLeft: 20
+    marginLeft: 20,
+    flexBasis: '40%',
   }
 });

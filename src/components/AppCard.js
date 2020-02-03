@@ -12,6 +12,7 @@ export const AppCard = (props) => {
 
 const styles = StyleSheet.create({
   default: {
+    flexDirection: 'row',
     padding: 15,
     justifyContent: 'space-between',
     alignItems: 'center',

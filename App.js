@@ -1,59 +1,37 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, Alert} from 'react-native';
-import {Navbar} from './src/components/Navbar';
-import {MainScreen} from './src/screens/MainScreen';
-import {TodoScreen} from "./src/screens/TodoScreen";
+import * as Font from 'expo-font';
+import {AppLoading} from 'expo';
+import {TodoState} from "./src/context/todo/TodoState";
+import {MainLayout} from "./src/MainLayout";
+import {ScreenState} from "./src/context/screen/ScreenState";
+
+async function loadApp() {
+  await Font.loadAsync({
+    'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf'),
+  })
+};
 
 export default function App() {
-  const [todos, setTodos] = useState([]);
-  const [currTodo, setCurrTodo] = useState(null);
+  const [isReady, setIsReady] = useState(false);
 
-  const addTodo = (title) => {
-    setTodos((prevTodos) => [...prevTodos, {id: Date.now().toString(), title: title}]);
-  };
-  const removeTodo = (id) => {
-    Alert.alert('Удаление элемента', 'Вы уверены, что хотит удалить заметку?',
-      [{
-        text: 'Cancel',
-        style: 'cancel'
-      },
-        {
-          text: 'Delete',
-          onPress: () => {
-            setCurrTodo(null);
-            setTodos((prev) => prev.filter(todo => todo.id !== id));
-          }
-        }],
-      {canceled: false}
+  if (!isReady) {
+    return (
+      <AppLoading
+        startAsync={loadApp}
+        onError={err => console.log(err)}
+        onFinish={() => setIsReady(true)}
+      />
     );
-  };
-  const editTodo = (id, title) => {
-    setTodos(prevTodos => prevTodos.map(todo => {
-      if(todo.id === id) {
-        todo.title = title;
-      }
-
-      return todo;
-    }));
-  };
+  }
 
   return (
-    <View style={styles.container}>
-      <Navbar/>
-      <View style={styles.appContainer}>
-        {currTodo ?
-          <TodoScreen currTodo={currTodo} setCurrTodo={setCurrTodo} removeTodo={removeTodo} editTodo={editTodo}/> :
-          <MainScreen addTodo={addTodo} removeTodo={removeTodo} todos={todos} setCurrTodo={setCurrTodo}/>}
-      </View>
-    </View>
+    <ScreenState>
+      <TodoState>
+        <MainLayout/>
+      </TodoState>
+    </ScreenState>
   );
 }
-
-const styles = StyleSheet.create({
-  appContainer: {
-    padding: 20
-  }
-});
 
 /*<ScrollView>
   {todos.map(todo => <Todo key={todo.id} todo={todo}></Todo>)}

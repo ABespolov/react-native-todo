@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {AppTextBold} from "./ui/AppTextBold";
 
 export const Todo = ({todo, removeTodo, setCurrTodo}) => {
   return (
@@ -9,7 +10,7 @@ export const Todo = ({todo, removeTodo, setCurrTodo}) => {
       onLongPress={removeTodo.bind(this, todo.id)}
     >
       <View style={styles.todo}>
-        <Text>{todo.title}</Text>
+        <AppTextBold>{todo.title}</AppTextBold>
       </View>
     </TouchableOpacity>
   );
