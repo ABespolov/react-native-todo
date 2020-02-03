@@ -10,7 +10,7 @@ export const MainLayout = (props) => {
   currTodo = currTodo && currTodo.data;
 
   return (
-    <View>
+    <View style={styles.wrapper}>
       <Navbar/>
       <View style={styles.appContainer}>
         {currTodo ? <TodoScreen/> : <MainScreen/>}
@@ -21,7 +21,11 @@ export const MainLayout = (props) => {
 
 const styles = StyleSheet.create({
   appContainer: {
-    padding: 20
+    padding: 20,
+    flex: 1
+  },
+  wrapper: {
+    flex: 1
   }
 });
 
